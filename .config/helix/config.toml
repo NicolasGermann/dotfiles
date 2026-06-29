@@ -1,0 +1,17 @@
+theme = "ayu_mirage"
+
+[keys.normal.space]
+"z" = { "g" = ":sh zellij run -f -- lazygit" }
+
+[editor.soft-wrap]
+enable = true
+
+[editor]
+true-color = true
+
+[editor.inline-diagnostics]
+# Minimum severity to show a diagnostic on the primary cursor's line.
+# Note that `cursor-line` diagnostics are hidden in insert mode.
+cursor-line = "hint"
+# Minimum severity to show a diagnostic on other lines:
+other-lines = "error"
