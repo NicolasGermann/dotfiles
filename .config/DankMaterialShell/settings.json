@@ -3,7 +3,7 @@
   "currentThemeCategory": "dynamic",
   "customThemeFile": "/home/nicolasg/.config/DankMaterialShell/themes/crimsonVoltage/theme.json",
   "registryThemeVariants": {},
-  "matugenScheme": "scheme-expressive",
+  "matugenScheme": "scheme-neutral",
   "runUserMatugenTemplates": true,
   "matugenTargetMonitor": "",
   "popupTransparency": 1,
@@ -196,7 +196,7 @@
   "dankLauncherV2UnloadOnClose": false,
   "useAutoLocation": false,
   "weatherEnabled": true,
-  "networkPreference": "auto",
+  "networkPreference": "wifi",
   "iconTheme": "System Default",
   "cursorSettings": {
     "theme": "System Default",
@@ -255,7 +255,11 @@
   "fadeToDpmsGracePeriod": 5,
   "launchPrefix": "",
   "brightnessDevicePins": {},
-  "wifiNetworkPins": {},
+  "wifiNetworkPins": {
+    "preferredWifi": [
+      "MagentaWLAN-CT5P"
+    ]
+  },
   "bluetoothDevicePins": {},
   "audioInputDevicePins": {},
   "audioOutputDevicePins": {},
@@ -432,8 +436,14 @@
         "clipboard",
         "cpuUsage",
         "memUsage",
-        "notificationButton",
-        "battery",
+        {
+          "id": "notificationButton",
+          "enabled": true
+        },
+        {
+          "id": "battery",
+          "enabled": true
+        },
         "controlCenterButton"
       ],
       "spacing": 0,
@@ -571,6 +581,12 @@
           "height": 240.609375,
           "x": 1271.390625,
           "y": 0
+        },
+        "0x243D": {
+          "x": 1256,
+          "y": 0,
+          "width": 200,
+          "height": 200
         }
       }
     },
@@ -609,6 +625,12 @@
           "height": 477.53515625,
           "x": 1280.60546875,
           "y": 250.34375
+        },
+        "0x243D": {
+          "x": 1256,
+          "y": 318.06640625,
+          "width": 280,
+          "height": 446.3046875
         }
       }
     }
