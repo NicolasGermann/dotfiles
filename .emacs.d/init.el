@@ -32,7 +32,7 @@
 
 (setq-default line-spacing 0.12)
 
-(set-face-attribute 'default nil :font "SF Mono Terminal" :height 180)
+(set-face-attribute 'default nil :height 120)
 
 (setq inhibit-startup-screen t)    ; Begrüßung deaktivieren
 (setq initial-scratch-message ";;Willkommen") ; Scratch-Buffer komplett leeren
@@ -146,11 +146,6 @@
   (setq org-attach-auto-tag nil) ; manchmal stört das
   (require 'org-attach)
   (setq org-startup-with-inline-images t)
-  (setq org-yank-image-save-method "./img/")
-  (setq org-yank-image-file-name-format "img_%Y%m%d_%H%M%S.png")
-  (setq org-display-inline-images t)
-  (setq org-startup-with-inline-images t)
-  (add-hook 'org-mode-hook #'(lambda () (org-display-inline-images)))
   (custom-set-faces
    '(org-level-1 ((t (:inherit outline-1 :height 1.5 :weight bold))))
    '(org-level-2 ((t (:inherit outline-2 :height 1.3 :weight bold))))
@@ -394,11 +389,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(all-the-icons avy base16-theme corfu-terminal flycheck go-mode
-		   golden-ratio kind-icon languagetool lsp-ui magit
-		   marginalia meow mood-line ocodo-svg-modelines
-		   orderless org-modern ox-typst pyvenv rust-mode
-		   vc-fossil vertico vterm zig-mode)))
+   '(all-the-icons avy base16-theme corfu-terminal flycheck golden-ratio
+		   kind-icon languagetool lsp-ui magit marginalia meow
+		   mood-line nix-mode orderless org-modern ox-typst
+		   vc-fossil vertico vterm)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
