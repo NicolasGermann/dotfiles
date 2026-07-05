@@ -3,7 +3,7 @@
   "currentThemeCategory": "dynamic",
   "customThemeFile": "/home/nicolasg/.config/DankMaterialShell/themes/crimsonVoltage/theme.json",
   "registryThemeVariants": {},
-  "matugenScheme": "scheme-neutral",
+  "matugenScheme": "scheme-expressive",
   "runUserMatugenTemplates": true,
   "matugenTargetMonitor": "",
   "popupTransparency": 1,
@@ -260,7 +260,12 @@
       "MagentaWLAN-CT5P"
     ]
   },
-  "bluetoothDevicePins": {},
+  "bluetoothDevicePins": {
+    "preferredDevice": [
+      "EA:F2:E4:DA:1B:BE",
+      "14:1A:97:44:C2:0C"
+    ]
+  },
   "audioInputDevicePins": {},
   "audioOutputDevicePins": {},
   "gtkThemingEnabled": false,
@@ -587,6 +592,12 @@
           "y": 0,
           "width": 200,
           "height": 200
+        },
+        "VS278": {
+          "width": 200,
+          "height": 200,
+          "x": 1720,
+          "y": 0
         }
       }
     },
@@ -631,6 +642,12 @@
           "y": 318.06640625,
           "width": 280,
           "height": 446.3046875
+        },
+        "VS278": {
+          "width": 320,
+          "height": 480,
+          "x": 1600,
+          "y": 600
         }
       }
     }
