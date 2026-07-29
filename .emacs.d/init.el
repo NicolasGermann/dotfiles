@@ -14,6 +14,7 @@
   (setq doc-view-resolution 300))
 (add-hook 'doc-view-mode-hook (lambda () (display-line-numbers-mode -1)))
 (setq auto-save-default nil)
+(setq make-backup-files nil)
 (setq-default truncate-lines t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -32,7 +33,7 @@
 
 (setq-default line-spacing 0.12)
 
-(set-face-attribute 'default nil :height 120)
+(set-face-attribute 'default nil :height 160)
 
 (setq inhibit-startup-screen t)    ; Begrüßung deaktivieren
 (setq initial-scratch-message ";;Willkommen") ; Scratch-Buffer komplett leeren
@@ -42,10 +43,10 @@
 
 (package-initialize)
 
-(use-package base16-theme	    
+(use-package doom-themes
   :ensure t			    
   :config			    
-  (load-theme 'base16-everforest 0))
+  (load-theme 'doom-gruvbox t))
 
 (use-package golden-ratio
   :ensure t
@@ -103,13 +104,20 @@
 
 (use-package corfu
   :ensure t
-  ;; Optionale Einstellungen für eine bessere Erfahrung:
   :custom
-  (corfu-cycle t)                ; Ermöglicht das Kreisen durch die Liste
-  (corfu-auto t)                 ; Aktiviert automatische Vervollständigung beim Tippen
-  (corfu-auto-prefix 1)          ; Startet nach 2 getippten Zeichen
-  (corfu-auto-delay 0.1)         ; Wie schnell das Popup erscheint
-  (corfu-quit-at-boundary 'separator) ; Beendet Corfu bei Leerzeichen
+  (corfu-cycle t)
+  (corfu-auto t)
+  (corfu-auto-prefix 1)
+  (corfu-auto-delay 0.1)
+  (corfu-quit-at-boundary 'separator)
+  (corfu-popupinfo-mode 1)
+  :config
+  ;; Explizite Tastenbindung in der corfu-map
+  (define-key corfu-map (kbd "C-n") #'corfu-next)
+  (define-key corfu-map (kbd "C-p") #'corfu-previous)
+  (define-key corfu-map (kbd "<tab>") #'corfu-insert)
+  (define-key corfu-map (kbd "RET") nil)
+  (setq corfu-popupinfo-delay '(0.1 . 0.2))
   :init
   (global-corfu-mode))
 
@@ -223,6 +231,8 @@
 
 (use-package evil
   :ensure t
+  :init
+  (setq evil-want-keybinding nil)
   :config
   (evil-mode 1)
 )
@@ -241,6 +251,11 @@
   (define-key evil-window-map "l" 'evil-window-up)
   (define-key evil-window-map "ö" 'evil-window-right))
 
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init '(corfu vertico)))
 
 (use-package lsp-mode
   :ensure t
@@ -275,6 +290,10 @@
   :custom
   (mood-line-glyph-alist mood-line-glyphs-fira-code))
 
+(use-package rust-mode
+  :ensure nil
+  :defer t)
+
 (use-package go-mode
   :ensure nil
   :defer t
@@ -289,10 +308,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(all-the-icons avy base16-theme corfu-terminal evil flycheck
-		   golden-ratio kind-icon languagetool lsp-ui magit
-		   marginalia meow mood-line nix-mode orderless
-		   org-modern ox-typst vc-fossil vertico vterm)))
+   '(all-the-icons avy base16-theme batppuccin batpuccin cape
+		   corfu-terminal doom-themes doomt-themes evil
+		   evil-collection flycheck golden-ratio kind-icon
+		   languagetool lsp-ui magit marginalia mood-line
+		   orderless org-modern ox-typst rust-mode vc-fossil
+		   vertico vterm)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
