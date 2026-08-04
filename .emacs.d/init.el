@@ -54,13 +54,10 @@
   (orderless-matching-styles '(orderless-literal orderless-flex))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
-(use-package vertico
+(use-package smex
   :ensure t
-  :init
-  (vertico-mode 1)
-  :config
-  (setq vertico-count 10)
-  (setq vertico-cycle t))
+  :bind
+  ("M-x" . smex))
 
 (use-package marginalia
   :ensure t
