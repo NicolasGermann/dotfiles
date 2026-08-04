@@ -35,6 +35,7 @@
   
 (use-package avy
   :ensure t
+  :defer t
   :bind ("C-ö" . avy-goto-word-1)
   :config
   (setq avy-all-windows 'all-frames)
@@ -55,9 +56,24 @@
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package smex
+  :defer t
   :ensure t
   :bind
   ("M-x" . smex))
+
+(use-package swiper
+  :defer t
+  :ensure t
+  :bind
+  ("C-s" . swiper))
+
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-center-content t)
+  (setq dashboard-vertically-center-content t))
+
 
 (use-package marginalia
   :ensure t
@@ -65,6 +81,7 @@
   (marginalia-mode 1))
 
 (use-package org-modern
+  :defer t
   :ensure t
   :hook (org-mode . org-modern-mode)
   :config
@@ -91,16 +108,13 @@
     (setq org-outline-path-complete-in-steps nil)
     (setq org-refile-allow-creating-parent-nodes 'confirm))
 
-(use-package ox-typst
-  :ensure t
-  :defer t
-  :after org)
-
 (use-package magit
+  :defer t
   :ensure t
   :bind ("C-c g" . magit-status))
 
 (use-package evil
+  :defer t
   :ensure t
   :init
   (setq evil-want-keybinding nil)
@@ -118,6 +132,7 @@
   (define-key evil-window-map "ö" 'evil-window-right))
 
 (use-package corfu
+  :defer t
   :ensure t
   :custom
   (corfu-cycle t)
@@ -149,6 +164,7 @@
   (evil-collection-init '(corfu)))
 
 (use-package lsp-mode
+  :defer t
   :ensure t
   :init
   (setq lsp-keymap-prefix "C-c l")
@@ -163,6 +179,7 @@
   (setq eldoc-echo-area-use-multiline-p nil))
 
 (use-package languagetool
+  :defer t
   :ensure t
   :config
     (setq languagetool-java-arguments '("-Dfile.encoding=UTF-8")
