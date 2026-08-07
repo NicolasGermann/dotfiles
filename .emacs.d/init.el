@@ -19,6 +19,14 @@
 (require 'bind-key)
 (setq straight-use-package-by-default t)
 
+(use-package nano
+  :straight (nano :type git :host github :repo "rougier/nano-emacs")
+  :config
+  (nano-toggle-theme)
+  (set-face-attribute 'default nil :height 160)
+  (setq mac-option-modifier 'meta)
+  (setq mac-command-modifier 'meta))
+
 (use-package emacs
   :config
   (keymap-global-set "M-5" (lambda () (interactive) (insert "[]")))
@@ -45,22 +53,14 @@
   (setq dired-dwim-target t)
   (load (expand-file-name "local.el" user-emacs-directory) 'noerror)
   (setq custom-file (locate-user-emacs-file "custom.el"))
+  :bind
+  ("C-x C-c" . save-buffers-kill-emacs)
+  ("C-c r" . recentf)
   )
-
-(use-package nano
-  :straight (nano :type git :host github :repo "rougier/nano-emacs")
-  :config
-  (nano-toggle-theme)
-  (set-face-attribute 'default nil :height 160)
-  (setq mac-option-modifier 'meta)
-  (setq mac-command-modifier 'meta))
-
-(use-package flycheck)
 
 (use-package avy
   :defer t
   :bind ("C-ö" . avy-goto-char)
-  :bind ("C-x C-c" . save-buffers-kill-emacs)
   :config
   (setq avy-all-windows 'all-frames)
   :custom-face
@@ -81,21 +81,13 @@
   :init
   (vertico-mode 1)
   :config
-  ;; Optik: Zeige 10 Ergebnisse auf einmal
   (setq vertico-count 10)
-  ;; Ermöglicht es, mit der Eingabetaste ein Verzeichnis auszuwählen
   (setq vertico-cycle t))
 
 (use-package swiper
   :defer t
   :bind
   ("C-s" . swiper))
-
-;; (use-package dashboard
-;;   :config
-;;   (dashboard-setup-startup-hook)
-;;   (setq dashboard-center-content t)
-;;   (setq dashboard-vertically-center-content t))
 
 (use-package marginalia
   :init
@@ -199,10 +191,8 @@
         languagetool-server-command "~/.languagetool/languagetool-server.jar"
         languagetool-console-command "~/.languagetool/languagetool-commandline.jar")
     (defun setup-languagetool ()
-    "Einrichten des Languagtools für de-DE"
     (interactive)
     (languagetool-set-language 'de-DE)
     (languagetool-server-start)
     (sit-for 3)
     (languagetool-server-mode)))
-
