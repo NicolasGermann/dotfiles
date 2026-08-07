@@ -1,42 +1,66 @@
+(defvar bootstrap-version)
+    (let ((bootstrap-file
+	(expand-file-name
+	    "straight/repos/straight.el/bootstrap.el"
+	    (or (bound-and-true-p straight-base-dir)
+		user-emacs-directory)))
+	(bootstrap-version 7))
+    (unless (file-exists-p bootstrap-file)
+	(with-current-buffer
+	    (url-retrieve-synchronously
+	    "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+	    'silent 'inhibit-cookies)
+	(goto-char (point-max))
+	(eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+
+    (straight-use-package 'use-package)
+    (straight-use-package 'bind-key)
+(require 'bind-key)
+(setq straight-use-package-by-default t)
+
 (use-package emacs
   :config
-    (keymap-global-set "M-5" (lambda () (interactive) (insert "[]")))
-    (keymap-global-set "M-6" (lambda () (interactive) (insert "]")))
-    (keymap-global-set "M-7" (lambda () (interactive) (insert "|")))
-    (keymap-global-set "M-/" (lambda () (interactive) (insert "\\")))
-    (keymap-global-set "M-8" (lambda () (interactive) (insert "{}")))
-    (keymap-global-set "M-9" (lambda () (interactive) (insert "}")))
-    (keymap-global-set "M-L" (lambda () (interactive) (insert "@")))
-    (keymap-global-set "M-n" (lambda () (interactive) (insert "~")))
-    (keymap-global-set "M-&" (lambda () (interactive) (insert "^")))
-    (menu-bar-mode 0)
-    (tool-bar-mode 0)
-    (scroll-bar-mode 0)
-    (setq auto-save-default nil)
-    (setq make-backup-files nil)
-    (setq-default truncate-lines t)
-    (setq ns-command-modifier 'meta)
-    (set-face-attribute 'default nil :height 160)
-    (global-display-line-numbers-mode)
-    (which-key-mode 1)
-    (electric-pair-mode 1)
-    (ido-mode 1)
-    (ido-everywhere t)
-    (setq custom-file (locate-user-emacs-file "custom.el"))
+  (keymap-global-set "M-5" (lambda () (interactive) (insert "[]")))
+  (keymap-global-set "M-6" (lambda () (interactive) (insert "]")))
+  (keymap-global-set "M-7" (lambda () (interactive) (insert "|")))
+  (keymap-global-set "M-/" (lambda () (interactive) (insert "\\")))
+  (keymap-global-set "M-8" (lambda () (interactive) (insert "{}")))
+  (keymap-global-set "M-9" (lambda () (interactive) (insert "}")))
+  (keymap-global-set "M-L" (lambda () (interactive) (insert "@")))
+  (keymap-global-set "M-n" (lambda () (interactive) (insert "~")))
+  (keymap-global-set "M-&" (lambda () (interactive) (insert "^")))
+  (menu-bar-mode 0)
+  (tool-bar-mode 0)
+  (scroll-bar-mode 0)
+  (setq auto-save-default nil)
+  (setq make-backup-files nil)
+  (setq-default truncate-lines t)
+  (setq ns-command-modifier 'meta)
+  (global-display-line-numbers-mode)
+  (which-key-mode 1)
+  (setq ring-bell-function 'ignore)
+  (electric-pair-mode 1)
+  (setq delete-by-moving-to-trash t)
+  (setq dired-dwim-target t)
+  (load (expand-file-name "local.el" user-emacs-directory) 'noerror)
+  (setq custom-file (locate-user-emacs-file "custom.el"))
+  )
 
-    (require 'package)
-    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-    (package-initialize))
-
-(use-package doom-themes
-  :ensure t
+(use-package nano
+  :straight (nano :type git :host github :repo "rougier/nano-emacs")
   :config
-  (load-theme 'doom-gruvbox t))
-  
+  (nano-toggle-theme)
+  (set-face-attribute 'default nil :height 160)
+  (setq mac-option-modifier 'meta)
+  (setq mac-command-modifier 'meta))
+
+(use-package flycheck)
+
 (use-package avy
-  :ensure t
   :defer t
-  :bind ("C-ö" . avy-goto-word-1)
+  :bind ("C-ö" . avy-goto-char)
+  :bind ("C-x C-c" . save-buffers-kill-emacs)
   :config
   (setq avy-all-windows 'all-frames)
   :custom-face
@@ -45,44 +69,40 @@
   )
 
 (use-package all-the-icons
-  :ensure t
   :if (display-graphic-p))
 
 (use-package orderless
-  :ensure t
   :custom
   (completion-styles '(orderless basic))
   (orderless-matching-styles '(orderless-literal orderless-flex))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
-(use-package smex
-  :defer t
-  :ensure t
-  :bind
-  ("M-x" . smex))
+(use-package vertico
+  :init
+  (vertico-mode 1)
+  :config
+  ;; Optik: Zeige 10 Ergebnisse auf einmal
+  (setq vertico-count 10)
+  ;; Ermöglicht es, mit der Eingabetaste ein Verzeichnis auszuwählen
+  (setq vertico-cycle t))
 
 (use-package swiper
   :defer t
-  :ensure t
   :bind
   ("C-s" . swiper))
 
-(use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-center-content t)
-  (setq dashboard-vertically-center-content t))
-
+;; (use-package dashboard
+;;   :config
+;;   (dashboard-setup-startup-hook)
+;;   (setq dashboard-center-content t)
+;;   (setq dashboard-vertically-center-content t))
 
 (use-package marginalia
-  :ensure t
   :init
   (marginalia-mode 1))
 
 (use-package org-modern
   :defer t
-  :ensure t
   :hook (org-mode . org-modern-mode)
   :config
   (setq org-modern-star '("◉" "○" "◈" "◇" "⁖"))
@@ -110,12 +130,10 @@
 
 (use-package magit
   :defer t
-  :ensure t
   :bind ("C-c g" . magit-status))
 
 (use-package evil
   :defer t
-  :ensure t
   :init
   (setq evil-want-keybinding nil)
   :hook
@@ -133,7 +151,6 @@
 
 (use-package corfu
   :defer t
-  :ensure t
   :custom
   (corfu-cycle t)
   (corfu-auto t)
@@ -147,7 +164,6 @@
   (global-corfu-mode))
 
 (use-package kind-icon
-  :ensure t
   :after corfu
   :custom
   (kind-icon-use-icons nil)
@@ -158,14 +174,12 @@
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 (use-package evil-collection
-  :ensure t
   :after evil
   :config
   (evil-collection-init '(corfu)))
 
 (use-package lsp-mode
   :defer t
-  :ensure t
   :init
   (setq lsp-keymap-prefix "C-c l")
   :config
@@ -180,7 +194,6 @@
 
 (use-package languagetool
   :defer t
-  :ensure t
   :config
     (setq languagetool-java-arguments '("-Dfile.encoding=UTF-8")
         languagetool-server-command "~/.languagetool/languagetool-server.jar"
