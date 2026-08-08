@@ -19,14 +19,6 @@
 (require 'bind-key)
 (setq straight-use-package-by-default t)
 
-(use-package nano
-  :straight (nano :type git :host github :repo "rougier/nano-emacs")
-  :config
-  (nano-toggle-theme)
-  (set-face-attribute 'default nil :height 160)
-  (setq mac-option-modifier 'meta)
-  (setq mac-command-modifier 'meta))
-
 (use-package emacs
   :config
   (keymap-global-set "M-5" (lambda () (interactive) (insert "[]")))
@@ -42,6 +34,8 @@
   (tool-bar-mode 0)
   (scroll-bar-mode 0)
   (setq auto-save-default nil)
+  (if (window-system)
+      (set-frame-height (selected-frame) 50))
   (setq make-backup-files nil)
   (setq-default truncate-lines t)
   (setq ns-command-modifier 'meta)
@@ -53,10 +47,28 @@
   (setq dired-dwim-target t)
   (load (expand-file-name "local.el" user-emacs-directory) 'noerror)
   (setq custom-file (locate-user-emacs-file "custom.el"))
+  (set-face-attribute 'default nil :height 160)
+  (setq mac-option-modifier 'meta)
+  (setq mac-command-modifier 'meta)
+  (setq initial-buffer-choice 'scratch-buffer)
+  (setq-default mode-line-format
+		'("%*" " " "%b"
+		  mode-line-format-right-align
+		  (:eval (format "%d/%d " (line-number-at-pos) (count-lines (point-min) (point-max))))))
+  (setq-default header-line-format mode-line-format)
+  (setq-default mode-line-format nil)
   :bind
   ("C-x C-c" . save-buffers-kill-emacs)
   ("C-c r" . recentf)
   )
+
+(use-package doom-themes
+  :config
+  (load-theme 'doom-gruvbox t))
+
+(use-package spacious-padding
+  :config
+  (spacious-padding-mode 1))
 
 (use-package avy
   :defer t
