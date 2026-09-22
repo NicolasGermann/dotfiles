@@ -40,6 +40,7 @@
   (setq-default truncate-lines t)
   (setq ns-command-modifier 'meta)
   (global-display-line-numbers-mode)
+  (global-auto-revert-mode)
   (which-key-mode 1)
   (setq ring-bell-function 'ignore)
   (electric-pair-mode 1)
@@ -64,7 +65,7 @@
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-gruvbox t))
+  (load-theme 'doom-bluloco-dark t))
 
 (use-package spacious-padding
   :config
@@ -107,7 +108,9 @@
 
 (use-package org-modern
   :defer t
-  :hook (org-mode . org-modern-mode)
+  :hook
+  (org-mode . org-modern-mode)
+  (org-mode . visual-line-mode)
   :config
   (setq org-modern-star '("◉" "○" "◈" "◇" "⁖"))
   (setq org-attach-auto-tag nil) ; manchmal stört das
@@ -135,6 +138,11 @@
 (use-package magit
   :defer t
   :bind ("C-c g" . magit-status))
+
+(use-package vterm
+  :hook (vterm-mode . (lambda () (display-line-numbers-mode -1))))
+(use-package ghostel 
+  :hook (ghostel-mode . (lambda () (display-line-numbers-mode -1))))
 
 (use-package evil
   :defer t
@@ -182,6 +190,8 @@
   :config
   (evil-collection-init '(corfu)))
 
+(use-package flycheck)
+
 (use-package lsp-mode
   :defer t
   :init
@@ -197,7 +207,6 @@
   (setq eldoc-echo-area-use-multiline-p nil))
 
 (use-package languagetool
-  :defer t
   :config
     (setq languagetool-java-arguments '("-Dfile.encoding=UTF-8")
         languagetool-server-command "~/.languagetool/languagetool-server.jar"
@@ -208,3 +217,11 @@
     (languagetool-server-start)
     (sit-for 3)
     (languagetool-server-mode)))
+
+(use-package perspective
+  :bind
+  ("C-x C-b" . persp-list-buffers)         ; or use a nicer switcher, see below
+  :custom
+  (persp-mode-prefix-key (kbd "C-x C-p"))  ; pick your own prefix key here
+  :init
+  (persp-mode))
